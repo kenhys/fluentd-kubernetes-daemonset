@@ -55,6 +55,20 @@ jobs:
       - name: Setup tags
         run: |
           set -x
+          BUILD_AMD64_IMAGE=0
+          tag=${{ github.ref_name }}
+          # e.g v1.17.0-debian-azureblob-amd64-1.1 => v1.17.0
+          vversion=${tag%%-*}
+          # e.g v1.17.0-debian-azureblob-amd64-1.1 => 1.1
+          release=${tag##*-}
+          case $tag in
+            v*-debian-*)
+              ;;
+            v*-*)
+              BUILD_AMD64_IMAGE=1
+              echo "BUILD_AMD64_IMAGE=1" >> ${GITHUB_ENV}
+              ;;
+          esac
           component=${{ matrix.component }}
           echo "CONTEXT=docker-image/v1.17/${component}" >> ${GITHUB_ENV}
           for target in $(make echo-all-images); do
@@ -64,10 +78,18 @@ jobs:
                 tag1=$(echo $tags | cut -d',' -f1)
                 tag2=$(echo $tags | cut -d',' -f2)
                 echo "AMD64TAGS=${{ env.REPOSITORY }}:${tag1},${{ env.REPOSITORY }}:${tag2}" >> ${GITHUB_ENV}
+                if [ "$tag1" = "${vversion}-${component}-amd64-${release}" ]; then
+                  BUILD_AMD64_IMAGE=1
+                  echo "BUILD_AMD64_IMAGE=1" >> ${GITHUB_ENV}
+                fi
                 ;;
             esac
           done
+          if [ $BUILD_AMD64_IMAGE -ne 1 ]; then
+            echo "AMD64 $component $tag image will not be deployed"
+          fi
       - name: Build and push for amd64
+        if: ${{ env.BUILD_AMD64_IMAGE }}
         uses: docker/build-push-action@v6
         with:
           context: ${{ env.CONTEXT }}
@@ -99,6 +121,20 @@ jobs:
       - name: Setup tags
         run: |
           set -x
+          BUILD_ARM64_IMAGE=0
+          tag=${{ github.ref_name }}
+          # e.g v1.17.0-debian-azureblob-arm64-1.1 => v1.17.0
+          vversion=${tag%%-*}
+          # e.g v1.17.0-debian-azureblob-arm64-1.1 => 1.1
+          release=${tag##*-}
+          case $tag in
+            v*-debian-*)
+              ;;
+            v*-*)
+              BUILD_ARM64_IMAGE=1
+              echo "BUILD_ARM64_IMAGE=1" >> ${GITHUB_ENV}
+              ;;
+          esac
           component=${{ matrix.component }}
           echo "CONTEXT=docker-image/v1.17/arm64/${component}" >> ${GITHUB_ENV}
           for target in $(make echo-all-images); do
@@ -108,10 +144,18 @@ jobs:
                 tag1=$(echo $tags | cut -d',' -f1)
                 tag2=$(echo $tags | cut -d',' -f2)
                 echo "ARM64TAGS=${{ env.REPOSITORY }}:${tag1},${{ env.REPOSITORY }}:${tag2}" >> ${GITHUB_ENV}
+                if [ "$tag1" = "${vversion}-${component}-arm64-${release}" ]; then
+                  BUILD_ARM64_IMAGE=1
+                  echo "BUILD_ARM64_IMAGE=1" >> ${GITHUB_ENV}
+                fi
                 ;;
             esac
           done
+          if [ $BUILD_ARM64_IMAGE -ne 1 ]; then
+            echo "ARM64 $component $tag image will not be deployed"
+          fi
       - name: Build and push for arm64
+        if: ${{ env.BUILD_ARM64_IMAGE }}
         uses: docker/build-push-action@v6
         with:
           context: ${{ env.CONTEXT }}
