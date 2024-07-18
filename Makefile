@@ -21,7 +21,7 @@ X86_IMAGES := \
 	v1.17/debian-cloudwatch:v1.17.0-debian-cloudwatch-amd64-1.3,v1.17-debian-cloudwatch-amd64-1 \
 	v1.17/debian-s3:v1.17.0-debian-s3-amd64-1.3,v1.17-debian-s3-amd64-1 \
 	v1.17/debian-syslog:v1.17.0-debian-syslog-amd64-1.3,v1.17-debian-syslog-amd64-1 \
-	v1.17/debian-forward:v1.17.0-debian-forward-amd64-1.3,v1.17-debian-forward-amd64-1 \
+	v1.17/debian-forward:v1.17.0-debian-forward-amd64-1.3.1,v1.17-debian-forward-amd64-1 \
 	v1.17/debian-gcs:v1.17.0-debian-gcs-amd64-1.3,v1.17-debian-gcs-amd64-1 \
 	v1.17/debian-graylog:v1.17.0-debian-graylog-amd64-1.3,v1.17-debian-graylog-amd64-1 \
 	v1.17/debian-papertrail:v1.17.0-debian-papertrail-amd64-1.3,v1.17-debian-papertrail-amd64-1 \
@@ -42,7 +42,7 @@ ARM64_IMAGES := \
 	v1.17/arm64/debian-cloudwatch:v1.17.0-debian-cloudwatch-arm64-1.3,v1.17-debian-cloudwatch-arm64-1 \
 	v1.17/arm64/debian-s3:v1.17.0-debian-s3-arm64-1.3,v1.17-debian-s3-arm64-1 \
 	v1.17/arm64/debian-syslog:v1.17.0-debian-syslog-arm64-1.3,v1.17-debian-syslog-arm64-1 \
-	v1.17/arm64/debian-forward:v1.17.0-debian-forward-arm64-1.3,v1.17-debian-forward-arm64-1 \
+	v1.17/arm64/debian-forward:v1.17.0-debian-forward-arm64-1.3.1,v1.17-debian-forward-arm64-1 \
 	v1.17/arm64/debian-gcs:v1.17.0-debian-gcs-arm64-1.3,v1.17-debian-gcs-arm64-1 \
 	v1.17/arm64/debian-graylog:v1.17.0-debian-graylog-arm64-1.3,v1.17-debian-graylog-arm64-1 \
 	v1.17/arm64/debian-papertrail:v1.17.0-debian-papertrail-arm64-1.3,v1.17-debian-papertrail-arm64-1 \
