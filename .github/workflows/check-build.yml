@@ -5,11 +5,7 @@ on:
 
 env:
   REPOSITORY: ${{ secrets.DOCKER_HUB_ORGS }}/fluentd-kubernetes-daemonset
-jobs:
-  define-matrix:
-    runs-on: ubuntu-latest
-    env:
-      ALL_COMPONENTS: >
+  ALL_COMPONENTS: >
         [
         "debian-azureblob",
         "debian-cloudwatch",
@@ -29,22 +25,13 @@ jobs:
         "debian-s3",
         "debian-syslog"
         ]
-    outputs:
-      components: >
-        ${{ format('["{0}"]', steps.arrange-components.outputs.component) }}
-    steps:
-      - id: arrange-components
-        run: |
-          for component in ${{ join(fromJSON(env.ALL_COMPONENTS), ' ') }}; do
-            echo "component=$component" >> "$GITHUB_OUTPUT"
-          done
+jobs:
   amd64:
-    needs: define-matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        component: ${{ fromJSON(needs.define-matrix.outputs.components) }}
+        component: ${{ env.ALL_COMPONENTS }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up Docker Buildx
@@ -81,7 +68,6 @@ jobs:
           # dare to use old mediatype (application/vnd.docker.distribution.manifest.v2+json)
           outputs: oci-mediatypes=false
   arm64:
-    needs: define-matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
