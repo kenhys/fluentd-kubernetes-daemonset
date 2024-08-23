@@ -6,25 +6,25 @@ on:
 env:
   REPOSITORY: ${{ secrets.DOCKER_HUB_ORGS }}/fluentd-kubernetes-daemonset
   ALL_COMPONENTS: >
-        [
-        "debian-azureblob",
-        "debian-cloudwatch",
-        "debian-elasticsearch7",
-        "debian-elasticsearch8",
-        "debian-forward",
-        "debian-gcs",
-        "debian-graylog",
-        "debian-kafka2",
-        "debian-kafka",
-        "debian-kinesis",
-        "debian-logentries",
-        "debian-loggly",
-        "debian-logzio",
-        "debian-opensearch",
-        "debian-papertrail",
-        "debian-s3",
-        "debian-syslog"
-        ]
+    [
+    "debian-azureblob",
+    "debian-cloudwatch",
+    "debian-elasticsearch7",
+    "debian-elasticsearch8",
+    "debian-forward",
+    "debian-gcs",
+    "debian-graylog",
+    "debian-kafka2",
+    "debian-kafka",
+    "debian-kinesis",
+    "debian-logentries",
+    "debian-loggly",
+    "debian-logzio",
+    "debian-opensearch",
+    "debian-papertrail",
+    "debian-s3",
+    "debian-syslog"
+    ]
 jobs:
   amd64:
     runs-on: ubuntu-latest
