@@ -31,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        component: ${{ env.ALL_COMPONENTS }}
+        component: ${{ fromJSON(env.ALL_COMPONENTS) }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up Docker Buildx
