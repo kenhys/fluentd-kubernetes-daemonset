@@ -5,34 +5,41 @@ on:
 
 env:
   REPOSITORY: ${{ secrets.DOCKER_HUB_ORGS }}/fluentd-kubernetes-daemonset
-  ALL_COMPONENTS: >
-    [
-    "debian-azureblob",
-    "debian-cloudwatch",
-    "debian-elasticsearch7",
-    "debian-elasticsearch8",
-    "debian-forward",
-    "debian-gcs",
-    "debian-graylog",
-    "debian-kafka2",
-    "debian-kafka",
-    "debian-kinesis",
-    "debian-logentries",
-    "debian-loggly",
-    "debian-logzio",
-    "debian-opensearch",
-    "debian-papertrail",
-    "debian-s3",
-    "debian-syslog",
-    ]
 
 jobs:
+  define-matrix:
+    runs-on: ubuntu-latest
+    env:
+      ALL_COMPONENTS: >
+        [
+        "debian-azureblob",
+        "debian-cloudwatch",
+        "debian-elasticsearch7",
+        "debian-elasticsearch8",
+        "debian-forward",
+        "debian-gcs",
+        "debian-graylog",
+        "debian-kafka2",
+        "debian-kafka",
+        "debian-kinesis",
+        "debian-logentries",
+        "debian-loggly",
+        "debian-logzio",
+        "debian-opensearch",
+        "debian-papertrail",
+        "debian-s3",
+        "debian-syslog"
+        ]
+    outputs:
+      components: >
+        ${{ env.ALL_COMPONENTS }}
   amd64:
+    needs: define-matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        component: ${{ fromJSON( env.ALL_COMPONENTS ) }}
+        component: ${{ fromJSON(needs.define-matrix.outputs.components) }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up Docker Buildx
@@ -69,11 +76,12 @@ jobs:
           # dare to use old mediatype (application/vnd.docker.distribution.manifest.v2+json)
           outputs: oci-mediatypes=false
   arm64:
+    needs: define-matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        component: ${{ fromJSON( env.ALL_COMPONENTS ) }}
+        component: ${{ fromJSON(needs.define-matrix.outputs.components) }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up QEMU
