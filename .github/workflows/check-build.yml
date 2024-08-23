@@ -6,7 +6,7 @@ on:
 env:
   REPOSITORY: ${{ secrets.DOCKER_HUB_ORGS }}/fluentd-kubernetes-daemonset
 jobs:
- define-matrix:
+  define-matrix:
     runs-on: ubuntu-latest
     env:
       ALL_COMPONENTS: >
